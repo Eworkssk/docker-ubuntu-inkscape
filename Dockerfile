@@ -1,19 +1,18 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update -y && \
-    apt install fontconfig -y && \
-    apt install wget -y && \
-    apt install cabextract -y && \
-    apt install xfonts-utils -y
+    apt install fontconfig wget cabextract xfonts-utils unzip -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 ###################################################################################################
 ### Fonts #########################################################################################
 ###################################################################################################
-RUN apt install unzip -y
-
-RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-RUN dpkg -i ttf-mscorefonts-installer_3.6_all.deb
+RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
+RUN dpkg -i ttf-mscorefonts-installer_3.8_all.deb
 
 RUN mkdir -p /root/fonts
 RUN mkdir -p /usr/share/fonts/custom
@@ -31,9 +30,14 @@ RUN fc-cache -f -v
 ###################################################################################################
 ### Inkscape ######################################################################################
 ###################################################################################################
-RUN apt install software-properties-common -y && \
+RUN apt update -y && \
+    apt install software-properties-common -y && \
     add-apt-repository ppa:inkscape.dev/stable && \
     apt update -y && \
-    apt install inkscape -y
+    apt install inkscape -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 CMD ["inkscape", "--version"]
