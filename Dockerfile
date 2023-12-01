@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update -y && \
-    apt install fontconfig wget cabextract xfonts-utils unzip -y && \
+    apt install fontconfig wget cabextract xfonts-utils unzip ttf-mscorefonts-installer -y && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y && \
     apt-get clean -y && \
@@ -11,9 +11,6 @@ RUN apt update -y && \
 ###################################################################################################
 ### Fonts #########################################################################################
 ###################################################################################################
-RUN wget http://ftp.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
-RUN dpkg -i ttf-mscorefonts-installer_3.8_all.deb
-
 RUN mkdir -p /root/fonts
 RUN mkdir -p /usr/share/fonts/custom
 
